@@ -19,16 +19,12 @@ if __name__ == "__main__":
 
     parser.add_argument("-V", "--version", help="show program version", action="store_true")
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-    parser.add_argument("-r", "--reset_model", help="reset model for selected algorithms", action="store_true")
+    parser.add_argument("-r", "--reset_model", help="reset model for selected algorithm", action="store_true")
     #    parser.add_argument("-d", "--dataset", help="Load dataset if not already loaded")
 
     required = parser.add_argument_group("required arguments")
-    required.add_argument("-A", "--algorithm", nargs='+', help="Select classification algorithms.",
-                          choices=C_ALGORITHMS, required=True)
-
-    """required.add_argument("-rF", "--remove_feature", type=str, help="Remove feature from dataset.",
-                          choices=[], required=True)"""
-
+    required.add_argument("-A", "--algorithm", help="Select classification algorithms.", choices=C_ALGORITHMS,
+                          required=True)
     args = parser.parse_args()
 
     if args.version:
@@ -36,6 +32,8 @@ if __name__ == "__main__":
     else:
         if args.verbose:
             logging.basicConfig(level=logging.DEBUG)
-        if 'ALL' in args.algorithm:
-            args.algorithm = ['ALL']
+        logging.info("VERBOSITY ON")
+        logging.info(f"Selected Algorithm: {args.algorithm}")
+        logging.info(f"RESET {args.reset_model}")
         pre_processor = Preprocessor(dataset_path=DEFAULT_DATESET, selected_algo=args.algorithm)
+        pre_processor.preprocess()

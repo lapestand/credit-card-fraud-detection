@@ -3,7 +3,7 @@ import os
 DESCRIPTION_MESSAGE = "This is my graduation project. It runs several classification algorithms to detect anomaly in " \
                       "credit card purchases."
 
-C_ALGORITHMS = ["ALL", "LogisticRegression", "NaiveBayes", "StochasticGradientDescent", "K-NearestNeighbours",
+C_ALGORITHMS = ["LogisticRegression", "NaiveBayes", "StochasticGradientDescent", "K-NearestNeighbours",
                 "DecisionTree", "RandomForest", "SupportVectorMachine"]
 
 VERSION = "CCFD 1.0.1"
