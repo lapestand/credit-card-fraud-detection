@@ -1,3 +1,4 @@
+import os
 import logging
 import argparse
 
@@ -7,7 +8,7 @@ from src.preprocessing.Preprocessor import Preprocessor
 
 class FraudDetector:
     def __init__(self, algorithms="ALL", reset=False, features="ALL"):
-        pass
+        logging.debug(f"test {pathlib.Path(__file__).parent.absolute()}")
 
 
 def run():
@@ -15,25 +16,31 @@ def run():
 
 
 if __name__ == "__main__":
+    os.system("cls")
     parser = argparse.ArgumentParser(description=DESCRIPTION_MESSAGE)
 
     parser.add_argument("-V", "--version", help="show program version", action="store_true")
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
-    parser.add_argument("-r", "--reset_model", help="reset model for selected algorithm", action="store_true")
     #    parser.add_argument("-d", "--dataset", help="Load dataset if not already loaded")
 
+    """
     required = parser.add_argument_group("required arguments")
     required.add_argument("-A", "--algorithm", help="Select classification algorithms.", choices=C_ALGORITHMS,
                           required=True)
+    """
     args = parser.parse_args()
+    script_path = pathlib.Path(__file__).parent.absolute()
 
     if args.version:
         print(VERSION)
     else:
         if args.verbose:
-            logging.basicConfig(level=logging.DEBUG)
-        logging.info("VERBOSITY ON")
-        logging.info(f"Selected Algorithm: {args.algorithm}")
-        logging.info(f"RESET {args.reset_model}")
-        pre_processor = Preprocessor(dataset_path=DEFAULT_DATESET, selected_algo=args.algorithm)
-        pre_processor.preprocess()
+            logging.basicConfig(format='%(levelname)s: %(message)s', level=logging.DEBUG)
+            logging.info("VERBOSITY ON")
+        else:
+            logging.basicConfig(format='%(levelname)s :%(message)s', level=logging.WARNING)
+
+        logging.info(f"SCRIPT PATH ==> {script_path}")
+        logging.info(f"dataset ==> {DEFAULT_DATASET}")
+        pre_processor = Preprocessor(dataset_path=DEFAULT_DATASET, script_path=script_path)
+        pre_processor.split_by(('Cardholder Last Name', 'Cardholder First Initial'))

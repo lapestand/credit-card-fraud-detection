@@ -1,5 +1,7 @@
 import logging
 
+import os
+import pathlib
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,19 +9,25 @@ from sklearn.impute import SimpleImputer
 
 
 class Preprocessor:
-    def __init__(self, dataset_path=None, selected_algo=None):
-        logging.info("Preprocessor creating")
+    def __init__(self, dataset_path=None, script_path=None):
+        self.raw_dataset_path = dataset_path
+        self.splitted_data_path = os.path.join(script_path, "data", "splitted_by_cardholders")
 
-        self.dateset_path = dataset_path
-        self.raw_data = None
+        if not os.path.exists(self.splitted_data_path):
+            os.mkdir(self.splitted_data_path)
+            logging.debug(f"{self.splitted_data_path} created")
+        else:
+            logging.debug(f"{self.splitted_data_path} is exist therefore didn't created again")
+
+        self.raw_data = pd.read_csv(self.raw_dataset_path)
+        logging.debug("Dataset loaded")
+        logging.debug(self.raw_data.columns)
+
         logging.info("Preprocessor created")
-
-    def __del__(self):
-        pass
 
     def preprocess(self):
         logging.info("Dataset loading")
-        self.raw_data = pd.read_csv(self.dateset_path)
+        self.raw_data = pd.read_csv(self.raw_dataset_path)
         logging.info("Dataset loaded")
         for idx, row in self.raw_data.iterrows():
             for col in self.raw_data.columns:
@@ -41,3 +49,16 @@ class Preprocessor:
                 print(self.raw_data)
                 print(self.raw_data[[self.raw_data.columns[0]]])
         """
+
+    def split_by(self, categories):
+        groups = self.raw_data.groupby(list(categories))
+        size_of_groups = self.raw_data.groupby(list(categories)).size()
+        print(size_of_groups)
+        print(f"Total group count: {len(groups)}", end="\n\n\n")
+        logging.debug("DRAWING")
+        size_of_groups.plot(x="card holder", y="transaction count")
+        plt.setp(plt.axes().get_xticklabels(), visible=False)
+        # plt.boxplot(size_of_groups[["transaction count"]])
+        plt.show()
+        print("\n")
+        print("splitted")
