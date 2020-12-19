@@ -2,6 +2,8 @@ import logging
 
 import os
 import pathlib
+from builtins import enumerate
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,14 +53,33 @@ class Preprocessor:
         """
 
     def split_by(self, categories):
+        def split_(a, n):
+            k, m = divmod(len(a), n)
+            return [a[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n)]
+
+        print(self.raw_data)
         groups = self.raw_data.groupby(list(categories))
+        print(groups.first())
+        exit(1)
         size_of_groups = self.raw_data.groupby(list(categories)).size()
-        print(size_of_groups)
-        print(f"Total group count: {len(groups)}", end="\n\n\n")
-        logging.debug("DRAWING")
-        size_of_groups.plot(x="card holder", y="transaction count")
-        plt.setp(plt.axes().get_xticklabels(), visible=False)
+        size_of_groups = size_of_groups.sort_values()
+        logging.debug(f"Total group count: {len(groups)}")
+
+        # logging.debug("DRAWING")
+        # size_of_groups.plot(x="card holder", y="transaction count")
+        # size_of_groups.sort_values().plot(x="card holder", y="transaction count")
+        # print(size_of_groups.index)
+        # print(size_of_groups.values)
+        parts = split_(size_of_groups.values, 3)
+        logging.debug(f"Partition count: {len(parts)}")
+        # for idx, g_size in enumerate(size_of_groups):
+
+        for idx, p in enumerate(parts):
+            logging.debug(f"Size of part {idx} --> {len(p)}")
+            logging.debug(f"\t{p[0]} - {p[-1]}")
+#            for _ in p:
+
+
+        # plt.setp(plt.axes().get_xticklabels(), visible=False)
         # plt.boxplot(size_of_groups[["transaction count"]])
-        plt.show()
-        print("\n")
-        print("splitted")
+        # plt.show()
