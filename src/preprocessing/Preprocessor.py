@@ -3,6 +3,8 @@ import logging
 import os
 import pathlib
 
+import random
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -12,13 +14,14 @@ from sklearn.impute import SimpleImputer
 class Preprocessor:
     def __init__(self, dataset_path=None, script_path=None):
         self.raw_dataset_path = dataset_path
-        self.splitted_data_path = os.path.join(script_path, "data", "splitted_by_cardholders")
+        self.script_path = script_path
+        self.quartiles_path = os.path.join(script_path, "data", "groups")
 
-        if not os.path.exists(self.splitted_data_path):
-            os.mkdir(self.splitted_data_path)
-            logging.debug(f"{self.splitted_data_path} created")
+        if not os.path.exists(self.quartiles_path):
+            os.mkdir(self.quartiles_path)
+            logging.debug(f"{self.quartiles_path} created")
         else:
-            logging.debug(f"{self.splitted_data_path} is exist therefore didn't created again")
+            logging.debug(f"{self.quartiles_path} is exist therefore didn't created again")
 
         self.raw_data = pd.read_csv(self.raw_dataset_path)
         logging.debug("Dataset loaded")
@@ -69,15 +72,28 @@ class Preprocessor:
 
         # groupby on categories and quartiles
         dfg = df.groupby(categories + ['quartiles'])
-        print(dfg)
 
         # save the groups to individual csv files
         for (fn, ln, q), g in dfg:
             # create the path
-            path = pathlib.Path(f'{self.splitted_data_path}/{q}')
+            path = pathlib.Path(f'{self.quartiles_path}/{q}')
 
             # make the directory
             path.mkdir(parents=True, exist_ok=True)
 
             # write the file without the size and quartiles columns
             g.iloc[:, :-2].to_csv(path / f'{fn}_{ln}.csv', index=False)
+
+    def get_percentage_of_quartiles(self, percentage):
+        def percent(p, w):
+            return (p * w) / 100.0
+
+        arr, tmp = list(), list()
+        for (root, dirs, files) in os.walk(self.quartiles_path):
+            if not dirs:
+                files = [os.path.join(root, file) for file in files]
+                arr.append(random.sample(files, int(percent(percentage, len(files)))))
+                tmp.append(range(len(files)))
+
+        logging.debug(f"Size of parts before selecting random {percentage}%: {[len(_) for _ in tmp]}")
+        logging.debug(f"Size of parts after selecting random {percentage}%: {[len(_) for _ in arr]}")

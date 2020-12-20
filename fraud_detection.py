@@ -16,7 +16,7 @@ def run():
 
 
 if __name__ == "__main__":
-    os.system("cls")
+    os.system("cls" if os.name == 'nt' else "clear")
     parser = argparse.ArgumentParser(description=DESCRIPTION_MESSAGE)
 
     parser.add_argument("-V", "--version", help="show program version", action="store_true")
@@ -39,4 +39,5 @@ if __name__ == "__main__":
         logging.info(f"dataset ==> {DEFAULT_DATASET}")
 
         pre_processor = Preprocessor(dataset_path=DEFAULT_DATASET, script_path=script_path)
-        pre_processor.split_by(['Cardholder Last Name', 'Cardholder First Initial'])
+        # pre_processor.split_by(['Cardholder Last Name', 'Cardholder First Initial'])
+        pre_processor.get_percentage_of_quartiles(50)
