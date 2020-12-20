@@ -2,7 +2,6 @@ import logging
 
 import os
 import pathlib
-from builtins import enumerate
 
 import pandas as pd
 import numpy as np
@@ -53,33 +52,32 @@ class Preprocessor:
         """
 
     def split_by(self, categories):
-        def split_(a, n):
-            k, m = divmod(len(a), n)
-            return [a[i * k + min(i, m):(i + 1) * k + min(i + 1, m)] for i in range(n)]
+        # create the groups using groupby
+        groups = self.raw_data.groupby(categories).size().reset_index(name='size')
 
-        print(self.raw_data)
-        groups = self.raw_data.groupby(list(categories))
-        print(groups.first())
-        exit(1)
-        size_of_groups = self.raw_data.groupby(list(categories)).size()
-        size_of_groups = size_of_groups.sort_values()
-        logging.debug(f"Total group count: {len(groups)}")
+        # determine the quartile values to use with pd.cut
+        quartiles = groups['size'].quantile([.25, .5, .75]).tolist()
 
-        # logging.debug("DRAWING")
-        # size_of_groups.plot(x="card holder", y="transaction count")
-        # size_of_groups.sort_values().plot(x="card holder", y="transaction count")
-        # print(size_of_groups.index)
-        # print(size_of_groups.values)
-        parts = split_(size_of_groups.values, 3)
-        logging.debug(f"Partition count: {len(parts)}")
-        # for idx, g_size in enumerate(size_of_groups):
+        # add a lower and upper range for the bins in pd.cut
+        quartiles = [0] + quartiles + [float('inf')]
 
-        for idx, p in enumerate(parts):
-            logging.debug(f"Size of part {idx} --> {len(p)}")
-            logging.debug(f"\t{p[0]} - {p[-1]}")
-#            for _ in p:
+        # add a quartiles column to groups, using pd.cut
+        groups['quartiles'] = pd.cut(groups['size'], bins=quartiles, labels=['1st', '2nd', '3rd', '4th'])
 
+        # merge df and groups
+        df = self.raw_data.merge(groups, on=categories)
 
-        # plt.setp(plt.axes().get_xticklabels(), visible=False)
-        # plt.boxplot(size_of_groups[["transaction count"]])
-        # plt.show()
+        # groupby on categories and quartiles
+        dfg = df.groupby(categories + ['quartiles'])
+        print(dfg)
+
+        # save the groups to individual csv files
+        for (fn, ln, q), g in dfg:
+            # create the path
+            path = pathlib.Path(f'{self.splitted_data_path}/{q}')
+
+            # make the directory
+            path.mkdir(parents=True, exist_ok=True)
+
+            # write the file without the size and quartiles columns
+            g.iloc[:, :-2].to_csv(path / f'{fn}_{ln}.csv', index=False)

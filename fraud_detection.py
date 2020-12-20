@@ -23,11 +23,6 @@ if __name__ == "__main__":
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
     #    parser.add_argument("-d", "--dataset", help="Load dataset if not already loaded")
 
-    """
-    required = parser.add_argument_group("required arguments")
-    required.add_argument("-A", "--algorithm", help="Select classification algorithms.", choices=C_ALGORITHMS,
-                          required=True)
-    """
     args = parser.parse_args()
     script_path = pathlib.Path(__file__).parent.absolute()
 
@@ -42,5 +37,6 @@ if __name__ == "__main__":
 
         logging.info(f"SCRIPT PATH ==> {script_path}")
         logging.info(f"dataset ==> {DEFAULT_DATASET}")
+
         pre_processor = Preprocessor(dataset_path=DEFAULT_DATASET, script_path=script_path)
-        pre_processor.split_by(('Cardholder Last Name', 'Cardholder First Initial'))
+        pre_processor.split_by(['Cardholder Last Name', 'Cardholder First Initial'])
