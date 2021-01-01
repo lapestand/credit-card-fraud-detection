@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201406,76000,UNIVERSITY OF OKLAHOMA,ROBERTS,J,GENERAL PURCHASE,125.0,AUTOMAX HYUNDAI OF NORMAN,06/23/2014 12:00:00 AM,06/25/2014 12:00:00 AM,CAR AND TRUCK DEALERS (NEW AND USED)
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201406,76000,UNIVERSITY OF OKLAHOMA,ROBERTS,J,GENERAL PURCHASE,125.0,AUTOMAX HYUNDAI OF NORMAN,06/23/2014 12:00:00 AM,06/25/2014 12:00:00 AM,CAR AND TRUCK DEALERS (NEW AND USED),V

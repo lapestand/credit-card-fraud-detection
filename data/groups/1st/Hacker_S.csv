@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201310,9000,OFFICE OF MANAGEMENT AND ENTERPRISE SERV,Hacker,S,ROOM CHARGES,636.3,HYATT PLACE SAN ANTONIO,10/27/2013 12:00:00 AM,10/28/2013 12:00:00 AM,HYATT PLACE
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201310,9000,OFFICE OF MANAGEMENT AND ENTERPRISE SERV,Hacker,S,ROOM CHARGES,636.3,HYATT PLACE SAN ANTONIO,10/27/2013 12:00:00 AM,10/28/2013 12:00:00 AM,HYATT PLACE,V

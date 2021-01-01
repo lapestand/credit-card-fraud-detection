@@ -1,3 +1,3 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201308,76000,UNIVERSITY OF OKLAHOMA,GILJE,P,A Slaveholders' Union: Sla PCE|Slave Country: Amer,97.92,Amazon.com,08/12/2013 12:00:00 AM,08/13/2013 12:00:00 AM,BOOK STORES
-201401,76000,UNIVERSITY OF OKLAHOMA,GILJE,P,MY PASSPORT ULTRA 1 EACH,89.99,BEST BUY      00008755,01/17/2014 12:00:00 AM,01/20/2014 12:00:00 AM,ELECTRONICS STORES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201308,76000,UNIVERSITY OF OKLAHOMA,GILJE,P,A Slaveholders' Union: Sla PCE|Slave Country: Amer,97.92,Amazon.com,08/12/2013 12:00:00 AM,08/13/2013 12:00:00 AM,BOOK STORES,V
+201401,76000,UNIVERSITY OF OKLAHOMA,GILJE,P,MY PASSPORT ULTRA 1 EACH,89.99,BEST BUY      00008755,01/17/2014 12:00:00 AM,01/20/2014 12:00:00 AM,ELECTRONICS STORES,V

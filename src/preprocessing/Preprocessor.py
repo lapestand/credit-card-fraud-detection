@@ -1,4 +1,5 @@
 import logging
+import time
 
 import os
 import pathlib
@@ -16,6 +17,7 @@ class Preprocessor:
         self.raw_dataset_path = dataset_path
         self.script_path = script_path
         self.quartiles_path = os.path.join(script_path, "data", "groups")
+        self.mixed_transactions_path = os.path.join(script_path, "data", "mixed_transactions.csv")
 
         if not os.path.exists(self.quartiles_path):
             os.mkdir(self.quartiles_path)
@@ -28,6 +30,7 @@ class Preprocessor:
         logging.debug(self.raw_data.columns)
 
         logging.info("Preprocessor created")
+
 
     def preprocess(self):
         logging.info("Dataset loading")
@@ -53,6 +56,7 @@ class Preprocessor:
                 print(self.raw_data)
                 print(self.raw_data[[self.raw_data.columns[0]]])
         """
+
 
     def split_by(self, categories):
         # create the groups using groupby
@@ -84,16 +88,62 @@ class Preprocessor:
             # write the file without the size and quartiles columns
             g.iloc[:, :-2].to_csv(path / f'{fn}_{ln}.csv', index=False)
 
+        logging.debug(f"Files created under {self.quartiles_path}")
+
+
     def get_percentage_of_quartiles(self, percentage):
         def percent(p, w):
             return (p * w) / 100.0
 
-        arr, tmp = list(), list()
+        arr, count = list(), list()
         for (root, dirs, files) in os.walk(self.quartiles_path):
             if not dirs:
                 files = [os.path.join(root, file) for file in files]
                 arr.append(random.sample(files, int(percent(percentage, len(files)))))
-                tmp.append(range(len(files)))
+                count.append(len(files))
 
-        logging.debug(f"Size of parts before selecting random {percentage}%: {[len(_) for _ in tmp]}")
+        logging.debug(f"Size of parts before selecting random {percentage}%: {count}")
         logging.debug(f"Size of parts after selecting random {percentage}%: {[len(_) for _ in arr]}")
+        return arr
+
+
+    def add_new_column(self, c_name, c_value=None):
+        self.raw_data[c_name] = c_value
+        logging.debug(f"New column '{c_name}' added with default value = {c_value}")
+
+
+    def add_fake_instances(self, df_arr, group_keys):
+        logging.debug("merging started")
+        
+        # merge all groups
+        df = pd.concat([pd.read_csv(group) for quartile in df_arr for group in quartile])
+
+        # get group names
+        groups = [[f.split('_')[0], f.split('_')[-1][:-4]] for (r, d, f_l) in os.walk(self.quartiles_path) for f in f_l]
+
+
+        # select random data in the merged dataset excluding current group
+
+        mixed_transactions = pd.DataFrame(columns=list(df.columns))
+
+        for idx, group in enumerate(groups):
+            
+            current_group = df[(df[group_keys[0]] == group[0]) & (df[group_keys[1]] == group[1])]
+
+            if len(df.index) > 0:
+                df_without_current_group = df[(df[group_keys[0]] != group[0]) | (df[group_keys[1]] != group[1])]
+                
+                fake_transactions = df_without_current_group.sample(n=len(current_group.index))
+                fake_transactions['Class'] = 'F'
+
+                o_s = len(mixed_transactions.index)
+                mixed_transactions = pd.concat([mixed_transactions, current_group, fake_transactions])
+                n_s = len(mixed_transactions.index)
+                c_s = len(current_group.index)
+                f_s = len(fake_transactions)
+
+                print(' '*150  , end='\r')
+                print(f"Old size = {o_s}   fake_transactions = {f_s}   current_group = {c_s}  |  {n_s}   +{n_s-o_s}", end='\r')
+        print('\n')
+        mixed_transactions.to_csv(self.mixed_transactions_path)
+        logging.debug(f"New dataset({mixed_transactions.shape}) saved into {self.mixed_transactions_path}")

@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201309,76000,UNIVERSITY OF OKLAHOMA,GIBERTI,P,GENERAL PURCHASE,950.0,NAEYC SALES,09/27/2013 12:00:00 AM,09/30/2013 12:00:00 AM,CHARITABLE AND SOCIAL SERVICE ORGANIZATIONS
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201309,76000,UNIVERSITY OF OKLAHOMA,GIBERTI,P,GENERAL PURCHASE,950.0,NAEYC SALES,09/27/2013 12:00:00 AM,09/30/2013 12:00:00 AM,CHARITABLE AND SOCIAL SERVICE ORGANIZATIONS,V

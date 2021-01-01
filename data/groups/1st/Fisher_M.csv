@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,27000,STATE ELECTION BOARD,Fisher,M,OptiPlex 7010 Minitower Ba PCE,909.93,DMI  DELL K-12/GOVT,07/26/2013 12:00:00 AM,07/26/2013 12:00:00 AM,"COMPUTERS, COMPUTER PERIPHERAL EQUIPMENT, SOFTWARE"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,27000,STATE ELECTION BOARD,Fisher,M,OptiPlex 7010 Minitower Ba PCE,909.93,DMI  DELL K-12/GOVT,07/26/2013 12:00:00 AM,07/26/2013 12:00:00 AM,"COMPUTERS, COMPUTER PERIPHERAL EQUIPMENT, SOFTWARE",V

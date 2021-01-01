@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,76000,UNIVERSITY OF OKLAHOMA,BROWN,D,GENERAL PURCHASE,56.71,CONVEYOR AND CASTER CO,07/01/2013 12:00:00 AM,07/03/2013 12:00:00 AM,INDUSTRIAL SUPPLIES NOT ELSEWHERE CLASSIFIED
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,76000,UNIVERSITY OF OKLAHOMA,BROWN,D,GENERAL PURCHASE,56.71,CONVEYOR AND CASTER CO,07/01/2013 12:00:00 AM,07/03/2013 12:00:00 AM,INDUSTRIAL SUPPLIES NOT ELSEWHERE CLASSIFIED,V

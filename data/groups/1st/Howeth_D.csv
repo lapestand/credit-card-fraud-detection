@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,1000,OKLAHOMA STATE UNIVERSITY,Howeth,D,GENERAL PURCHASE,616.0,DOUBLETREE DOWNTOWN,06/27/2013 12:00:00 AM,07/24/2013 12:00:00 AM,DOUBLETREE HOTEL
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,1000,OKLAHOMA STATE UNIVERSITY,Howeth,D,GENERAL PURCHASE,616.0,DOUBLETREE DOWNTOWN,06/27/2013 12:00:00 AM,07/24/2013 12:00:00 AM,DOUBLETREE HOTEL,V

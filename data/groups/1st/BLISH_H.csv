@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201310,58500,DEPARTMENT OF PUBLIC SAFETY,BLISH,H,GENERAL PURCHASE,119.8,"SPECIAL OPS UNIFORMS,",10/18/2013 12:00:00 AM,10/21/2013 12:00:00 AM,"MENS, WOMENS AND CHILDRENS UNIFORMS AND COMMERCIAL CLOTHING"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201310,58500,DEPARTMENT OF PUBLIC SAFETY,BLISH,H,GENERAL PURCHASE,119.8,"SPECIAL OPS UNIFORMS,",10/18/2013 12:00:00 AM,10/21/2013 12:00:00 AM,"MENS, WOMENS AND CHILDRENS UNIFORMS AND COMMERCIAL CLOTHING",V

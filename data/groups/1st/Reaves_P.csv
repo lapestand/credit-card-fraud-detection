@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201406,1000,OKLAHOMA STATE UNIVERSITY,Reaves,P,ROOM CHARGES,681.48,HAMPTON INNS,05/29/2014 12:00:00 AM,06/02/2014 12:00:00 AM,HAMPTON INNS
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201406,1000,OKLAHOMA STATE UNIVERSITY,Reaves,P,ROOM CHARGES,681.48,HAMPTON INNS,05/29/2014 12:00:00 AM,06/02/2014 12:00:00 AM,HAMPTON INNS,V

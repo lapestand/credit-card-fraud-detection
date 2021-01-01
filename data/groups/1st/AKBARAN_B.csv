@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,76000,UNIVERSITY OF OKLAHOMA,AKBARAN,B,GENERAL PURCHASE,400.0,PUBLIC RELATIONS SOCIE,07/17/2013 12:00:00 AM,07/17/2013 12:00:00 AM,MEMBERSHIP ORGANIZATIONS--NOT ELSEWHERE CLASSIFIED
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,76000,UNIVERSITY OF OKLAHOMA,AKBARAN,B,GENERAL PURCHASE,400.0,PUBLIC RELATIONS SOCIE,07/17/2013 12:00:00 AM,07/17/2013 12:00:00 AM,MEMBERSHIP ORGANIZATIONS--NOT ELSEWHERE CLASSIFIED,V

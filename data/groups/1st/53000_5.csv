@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201310,53000,OKLA. PANHANDLE STATE UNIV.,53000,5,GENERAL PURCHASE,0.04,PURCHASE  FINANCE CHARGE,10/10/2013 12:00:00 AM,10/10/2013 12:00:00 AM,OTHER FEES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201310,53000,OKLA. PANHANDLE STATE UNIV.,53000,5,GENERAL PURCHASE,0.04,PURCHASE  FINANCE CHARGE,10/10/2013 12:00:00 AM,10/10/2013 12:00:00 AM,OTHER FEES,V

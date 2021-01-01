@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201404,1000,OKLAHOMA STATE UNIVERSITY,Hanan,J, ,499.0,XG SCIENCES INC,04/17/2014 12:00:00 AM,04/21/2014 12:00:00 AM,BUSINESS SERVICES NOT ELSEWHERE CLASSIFIED
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201404,1000,OKLAHOMA STATE UNIVERSITY,Hanan,J, ,499.0,XG SCIENCES INC,04/17/2014 12:00:00 AM,04/21/2014 12:00:00 AM,BUSINESS SERVICES NOT ELSEWHERE CLASSIFIED,V

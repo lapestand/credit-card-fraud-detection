@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201406,13100,DEPARTMENT OF CORRECTIONS,Burrell,V,GENERAL PURCHASE,160.65,OK LUMBER,06/03/2014 12:00:00 AM,06/05/2014 12:00:00 AM,CONSTRUCTION MATERIALS NOT ELSEWHERE CLASSIFIED
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201406,13100,DEPARTMENT OF CORRECTIONS,Burrell,V,GENERAL PURCHASE,160.65,OK LUMBER,06/03/2014 12:00:00 AM,06/05/2014 12:00:00 AM,CONSTRUCTION MATERIALS NOT ELSEWHERE CLASSIFIED,V

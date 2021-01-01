@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201406,34500,DEPARTMENT OF TRANSPORTATION,Moody,S,GENERAL PURCHASE,120.0,PRISM PLACE,06/16/2014 12:00:00 AM,06/17/2014 12:00:00 AM,MISCELLANEOUS AND SPECIALTY RETAIL STORES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201406,34500,DEPARTMENT OF TRANSPORTATION,Moody,S,GENERAL PURCHASE,120.0,PRISM PLACE,06/16/2014 12:00:00 AM,06/17/2014 12:00:00 AM,MISCELLANEOUS AND SPECIALTY RETAIL STORES,V

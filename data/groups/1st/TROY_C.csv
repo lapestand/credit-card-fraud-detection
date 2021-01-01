@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201311,76000,UNIVERSITY OF OKLAHOMA,TROY,C,GENERAL PURCHASE,385.05,INFORMATION TODAY INC,11/22/2013 12:00:00 AM,11/25/2013 12:00:00 AM,BOOK STORES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201311,76000,UNIVERSITY OF OKLAHOMA,TROY,C,GENERAL PURCHASE,385.05,INFORMATION TODAY INC,11/22/2013 12:00:00 AM,11/25/2013 12:00:00 AM,BOOK STORES,V

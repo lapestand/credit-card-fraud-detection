@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201312,76000,UNIVERSITY OF OKLAHOMA,BUTLER,E,12 Volt 2 Amp Power Adapte PCE,12.95,AMAZON MKTPLACE PMTS,12/10/2013 12:00:00 AM,12/10/2013 12:00:00 AM,BOOK STORES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201312,76000,UNIVERSITY OF OKLAHOMA,BUTLER,E,12 Volt 2 Amp Power Adapte PCE,12.95,AMAZON MKTPLACE PMTS,12/10/2013 12:00:00 AM,12/10/2013 12:00:00 AM,BOOK STORES,V

@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201308,30000,STATE AUDITOR AND INSPECTOR,Dehn,D,ROOM CHARGES,77.0,HOLIDAY INN EXPRESS,08/13/2013 12:00:00 AM,08/15/2013 12:00:00 AM,HOLIDAY INNS
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201308,30000,STATE AUDITOR AND INSPECTOR,Dehn,D,ROOM CHARGES,77.0,HOLIDAY INN EXPRESS,08/13/2013 12:00:00 AM,08/15/2013 12:00:00 AM,HOLIDAY INNS,V

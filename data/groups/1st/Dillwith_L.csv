@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201308,1000,OKLAHOMA STATE UNIVERSITY,Dillwith,L,GENERAL PURCHASE,-214.17,US DIGITAL MEDIA INC,08/14/2013 12:00:00 AM,08/16/2013 12:00:00 AM,MISCELLANEOUS AND SPECIALTY RETAIL STORES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201308,1000,OKLAHOMA STATE UNIVERSITY,Dillwith,L,GENERAL PURCHASE,-214.17,US DIGITAL MEDIA INC,08/14/2013 12:00:00 AM,08/16/2013 12:00:00 AM,MISCELLANEOUS AND SPECIALTY RETAIL STORES,V

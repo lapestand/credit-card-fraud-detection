@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201402,34500,DEPARTMENT OF TRANSPORTATION,Almquist,B,GENERAL PURCHASE,5.8,USPS 39184804033607177,02/06/2014 12:00:00 AM,02/07/2014 12:00:00 AM,POSTAGE STAMPS
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201402,34500,DEPARTMENT OF TRANSPORTATION,Almquist,B,GENERAL PURCHASE,5.8,USPS 39184804033607177,02/06/2014 12:00:00 AM,02/07/2014 12:00:00 AM,POSTAGE STAMPS,V

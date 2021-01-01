@@ -1,3 +1,3 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,76000,UNIVERSITY OF OKLAHOMA,WALLIS,C,Journalism of Ideas: Brain PCE,196.65,Amazon.com,07/21/2013 12:00:00 AM,07/22/2013 12:00:00 AM,BOOK STORES
-201307,76000,UNIVERSITY OF OKLAHOMA,WALLIS,C,Napkins 200ct NMB|Bunn Coffee Filters 8-10 NMB|8GB,103.11,OFFICE MAX,07/16/2013 12:00:00 AM,07/18/2013 12:00:00 AM,"STATIONERY,OFFICE AND SCHOOL SUPPLY STORES"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,76000,UNIVERSITY OF OKLAHOMA,WALLIS,C,Journalism of Ideas: Brain PCE,196.65,Amazon.com,07/21/2013 12:00:00 AM,07/22/2013 12:00:00 AM,BOOK STORES,V
+201307,76000,UNIVERSITY OF OKLAHOMA,WALLIS,C,Napkins 200ct NMB|Bunn Coffee Filters 8-10 NMB|8GB,103.11,OFFICE MAX,07/16/2013 12:00:00 AM,07/18/2013 12:00:00 AM,"STATIONERY,OFFICE AND SCHOOL SUPPLY STORES",V

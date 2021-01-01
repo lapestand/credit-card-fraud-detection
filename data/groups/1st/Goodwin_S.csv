@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201406,1000,OKLAHOMA STATE UNIVERSITY,Goodwin,S,GENERAL PURCHASE,32.0,NORTHSIDE LAUNDRY & CL,06/27/2014 12:00:00 AM,06/30/2014 12:00:00 AM,DRY CLEANERS
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201406,1000,OKLAHOMA STATE UNIVERSITY,Goodwin,S,GENERAL PURCHASE,32.0,NORTHSIDE LAUNDRY & CL,06/27/2014 12:00:00 AM,06/30/2014 12:00:00 AM,DRY CLEANERS,V

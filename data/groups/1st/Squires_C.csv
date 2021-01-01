@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201310,1000,OKLAHOMA STATE UNIVERSITY,Squires,C,CLR 1S on 32# Wht PCE|No Trim Booklets PCE|Booklet,206.28,FEDEXOFFICE   00001248,10/25/2013 12:00:00 AM,10/28/2013 12:00:00 AM,QUICK-COPY AND REPRODUCTION SERVICES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201310,1000,OKLAHOMA STATE UNIVERSITY,Squires,C,CLR 1S on 32# Wht PCE|No Trim Booklets PCE|Booklet,206.28,FEDEXOFFICE   00001248,10/25/2013 12:00:00 AM,10/28/2013 12:00:00 AM,QUICK-COPY AND REPRODUCTION SERVICES,V

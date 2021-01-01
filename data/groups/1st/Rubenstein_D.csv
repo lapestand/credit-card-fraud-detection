@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,1000,OKLAHOMA STATE UNIVERSITY,Rubenstein,D,Quantitative Human Physiol PCE,121.89,Amazon.com,07/10/2013 12:00:00 AM,07/10/2013 12:00:00 AM,BOOK STORES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,1000,OKLAHOMA STATE UNIVERSITY,Rubenstein,D,Quantitative Human Physiol PCE,121.89,Amazon.com,07/10/2013 12:00:00 AM,07/10/2013 12:00:00 AM,BOOK STORES,V

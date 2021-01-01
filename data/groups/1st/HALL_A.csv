@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201309,80500,DEPARTMENT OF REHABILITATION SERVICES,HALL,A,GENERAL PURCHASE,81.0,COPY FAST PRINTING,09/24/2013 12:00:00 AM,09/25/2013 12:00:00 AM,MISCELLANEOUS PUBLISHING AND PRINTING SERVICES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201309,80500,DEPARTMENT OF REHABILITATION SERVICES,HALL,A,GENERAL PURCHASE,81.0,COPY FAST PRINTING,09/24/2013 12:00:00 AM,09/25/2013 12:00:00 AM,MISCELLANEOUS PUBLISHING AND PRINTING SERVICES,V

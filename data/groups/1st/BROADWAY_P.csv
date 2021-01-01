@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201406,76000,UNIVERSITY OF OKLAHOMA,BROADWAY,P,GENERAL PURCHASE,1031.0,NACUBO,06/02/2014 12:00:00 AM,06/03/2014 12:00:00 AM,"CIVIC,SOCIAL AND FRATERNAL ASSOCIATIONS"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201406,76000,UNIVERSITY OF OKLAHOMA,BROADWAY,P,GENERAL PURCHASE,1031.0,NACUBO,06/02/2014 12:00:00 AM,06/03/2014 12:00:00 AM,"CIVIC,SOCIAL AND FRATERNAL ASSOCIATIONS",V

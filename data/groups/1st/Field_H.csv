@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,1000,OKLAHOMA STATE UNIVERSITY,Field,H,GENERAL PURCHASE,45.0,STILLWATER STEEL & SUPPLY,06/28/2013 12:00:00 AM,07/01/2013 12:00:00 AM,WELDING SERVICES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,1000,OKLAHOMA STATE UNIVERSITY,Field,H,GENERAL PURCHASE,45.0,STILLWATER STEEL & SUPPLY,06/28/2013 12:00:00 AM,07/01/2013 12:00:00 AM,WELDING SERVICES,V

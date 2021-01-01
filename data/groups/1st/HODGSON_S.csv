@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,76000,UNIVERSITY OF OKLAHOMA,HODGSON,S,Dell Reman 2330/2350 HY Bl Bottle,-87.99,LD-4INKJETS,07/09/2013 12:00:00 AM,07/11/2013 12:00:00 AM,"OFFICE, PHOTOGRAPHIC, PHOTOCOPY, AND MICROFILM EQUIPMENT"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,76000,UNIVERSITY OF OKLAHOMA,HODGSON,S,Dell Reman 2330/2350 HY Bl Bottle,-87.99,LD-4INKJETS,07/09/2013 12:00:00 AM,07/11/2013 12:00:00 AM,"OFFICE, PHOTOGRAPHIC, PHOTOCOPY, AND MICROFILM EQUIPMENT",V

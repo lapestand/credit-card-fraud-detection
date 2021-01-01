@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201401,58500,DEPARTMENT OF PUBLIC SAFETY,STRASBAUGH,C,AT&T IPAD MINI RETIN EACH|ATT IPAD ONLY - NO P EAC,629.99,BEST BUY      00017871,01/28/2014 12:00:00 AM,01/29/2014 12:00:00 AM,ELECTRONICS STORES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201401,58500,DEPARTMENT OF PUBLIC SAFETY,STRASBAUGH,C,AT&T IPAD MINI RETIN EACH|ATT IPAD ONLY - NO P EAC,629.99,BEST BUY      00017871,01/28/2014 12:00:00 AM,01/29/2014 12:00:00 AM,ELECTRONICS STORES,V

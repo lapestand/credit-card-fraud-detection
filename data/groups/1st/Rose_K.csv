@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201405,66500,S. W. OKLA. ST. UNIV.,Rose,K,GENERAL PURCHASE,139.11,WAL-MART #0392,05/06/2014 12:00:00 AM,05/07/2014 12:00:00 AM,"GROCERY STORES,AND SUPERMARKETS"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201405,66500,S. W. OKLA. ST. UNIV.,Rose,K,GENERAL PURCHASE,139.11,WAL-MART #0392,05/06/2014 12:00:00 AM,05/07/2014 12:00:00 AM,"GROCERY STORES,AND SUPERMARKETS",V

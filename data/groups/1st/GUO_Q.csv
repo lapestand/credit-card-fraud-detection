@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201307,77000,UNIV. OF OKLA. HEALTH SCIENCES CENTER,GUO,Q,GENERAL PURCHASE,223.27,"ESAFETY SUPPLIES,",07/12/2013 12:00:00 AM,07/15/2013 12:00:00 AM,"COMMERCIAL EQUIPMENT, NOT ELSEWHERE CLASSIFIED"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201307,77000,UNIV. OF OKLA. HEALTH SCIENCES CENTER,GUO,Q,GENERAL PURCHASE,223.27,"ESAFETY SUPPLIES,",07/12/2013 12:00:00 AM,07/15/2013 12:00:00 AM,"COMMERCIAL EQUIPMENT, NOT ELSEWHERE CLASSIFIED",V

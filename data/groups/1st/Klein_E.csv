@@ -1,4 +1,4 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201310,66500,S. W. OKLA. ST. UNIV.,Klein,E,Unleaded Super G,24.38,HUTCHS 112,10/04/2013 12:00:00 AM,10/07/2013 12:00:00 AM,AUTOMATED FUEL DISPENSER
-201404,66500,S. W. OKLA. ST. UNIV.,Klein,E,Super Unleaded Ethanol 010 G,23.0,THE POINT,04/23/2014 12:00:00 AM,04/24/2014 12:00:00 AM,AUTOMATED FUEL DISPENSER
-201405,66500,S. W. OKLA. ST. UNIV.,Klein,E,Regular Unleaded 086 Octan G,51.0,HUTCHS 112,05/20/2014 12:00:00 AM,05/21/2014 12:00:00 AM,AUTOMATED FUEL DISPENSER
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201310,66500,S. W. OKLA. ST. UNIV.,Klein,E,Unleaded Super G,24.38,HUTCHS 112,10/04/2013 12:00:00 AM,10/07/2013 12:00:00 AM,AUTOMATED FUEL DISPENSER,V
+201404,66500,S. W. OKLA. ST. UNIV.,Klein,E,Super Unleaded Ethanol 010 G,23.0,THE POINT,04/23/2014 12:00:00 AM,04/24/2014 12:00:00 AM,AUTOMATED FUEL DISPENSER,V
+201405,66500,S. W. OKLA. ST. UNIV.,Klein,E,Regular Unleaded 086 Octan G,51.0,HUTCHS 112,05/20/2014 12:00:00 AM,05/21/2014 12:00:00 AM,AUTOMATED FUEL DISPENSER,V

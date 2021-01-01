@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201406,1000,OKLAHOMA STATE UNIVERSITY,Kithakye,S,GENERAL PURCHASE,201.0,OKLAHOMA CITY ZOO,06/24/2014 12:00:00 AM,06/26/2014 12:00:00 AM,"AQUARIUMS,SEAQUARIUMS AND DOLPHINARIUMS"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201406,1000,OKLAHOMA STATE UNIVERSITY,Kithakye,S,GENERAL PURCHASE,201.0,OKLAHOMA CITY ZOO,06/24/2014 12:00:00 AM,06/26/2014 12:00:00 AM,"AQUARIUMS,SEAQUARIUMS AND DOLPHINARIUMS",V

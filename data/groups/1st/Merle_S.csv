@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201405,30000,STATE AUDITOR AND INSPECTOR,Merle,S,ROOM CHARGES,83.0,MARRIOTT HOTELS TULSA,05/14/2014 12:00:00 AM,05/15/2014 12:00:00 AM,MARRIOTT
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201405,30000,STATE AUDITOR AND INSPECTOR,Merle,S,ROOM CHARGES,83.0,MARRIOTT HOTELS TULSA,05/14/2014 12:00:00 AM,05/15/2014 12:00:00 AM,MARRIOTT,V

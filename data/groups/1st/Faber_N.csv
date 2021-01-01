@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201312,24000,EASTERN OKLA. STATE COLLEGE,Faber,N,GENERAL PURCHASE,78.0,USPS PO BOXES 66101510,12/04/2013 12:00:00 AM,12/05/2013 12:00:00 AM,POSTAGE STAMPS
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201312,24000,EASTERN OKLA. STATE COLLEGE,Faber,N,GENERAL PURCHASE,78.0,USPS PO BOXES 66101510,12/04/2013 12:00:00 AM,12/05/2013 12:00:00 AM,POSTAGE STAMPS,V

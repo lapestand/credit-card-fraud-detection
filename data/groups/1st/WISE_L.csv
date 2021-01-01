@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201309,58500,DEPARTMENT OF PUBLIC SAFETY,WISE,L,GENERAL PURCHASE,267.3,SAHO ANIMAL HOSPITAL,09/19/2013 12:00:00 AM,09/23/2013 12:00:00 AM,VETERINARY SERVICES
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201309,58500,DEPARTMENT OF PUBLIC SAFETY,WISE,L,GENERAL PURCHASE,267.3,SAHO ANIMAL HOSPITAL,09/19/2013 12:00:00 AM,09/23/2013 12:00:00 AM,VETERINARY SERVICES,V

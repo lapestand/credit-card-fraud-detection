@@ -1,2 +1,2 @@
-Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC)
-201404,1000,OKLAHOMA STATE UNIVERSITY,Lish,J,GENERAL PURCHASE,176.97,STAPLES       00105288,04/10/2014 12:00:00 AM,04/14/2014 12:00:00 AM,"STATIONERY,OFFICE AND SCHOOL SUPPLY STORES"
+Year-Month,Agency Number,Agency Name,Cardholder Last Name,Cardholder First Initial,Description,Amount,Vendor,Transaction Date,Posted Date,Merchant Category Code (MCC),Class
+201404,1000,OKLAHOMA STATE UNIVERSITY,Lish,J,GENERAL PURCHASE,176.97,STAPLES       00105288,04/10/2014 12:00:00 AM,04/14/2014 12:00:00 AM,"STATIONERY,OFFICE AND SCHOOL SUPPLY STORES",V
