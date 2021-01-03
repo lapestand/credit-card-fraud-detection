@@ -15,6 +15,8 @@ random seeding
 
 
 
+amount - vendor - t date - mcc - class - Card holder first initial - Card holder last name
+
 amount - vendor - t date - mcc - class
 
 

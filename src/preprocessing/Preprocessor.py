@@ -26,36 +26,18 @@ class Preprocessor:
             logging.debug(f"{self.quartiles_path} is exist therefore didn't created again")
 
         self.raw_data = pd.read_csv(self.raw_dataset_path)
-        logging.debug("Dataset loaded")
+        logging.info("Dataset loaded")
+
+        self.pruned_data = raw_data[["Cardholder Last Name", "Cardholder First Initial", "Amount", "Vendor", "Transaction Date", "Merchant Category Code (MCC)"]
+        logging.info("Dataset pruned")
+
+        self.fraudulent_data = None
+        
+        self.pruned_fraudulent_data = None
+
         logging.debug(self.raw_data.columns)
 
         logging.info("Preprocessor created")
-
-
-    def preprocess(self):
-        logging.info("Dataset loading")
-        self.raw_data = pd.read_csv(self.raw_dataset_path)
-        logging.info("Dataset loaded")
-        for idx, row in self.raw_data.iterrows():
-            for col in self.raw_data.columns:
-                if not row[col] or (row[col] and ((row[col].isspace()) if isinstance(row[col], str) else False)):
-                    print(row[col], "EMPTY", col, end="\n\t")
-                    print(f"row --> {row}")
-        """
-        logging.debug(f"Duplicates dropping. SHAPE {self.raw_data.shape}")
-        pd.DataFrame.drop_duplicates(self.raw_data)
-        logging.debug(f"Duplicates dropped. SHAPE {self.raw_data.shape}")
-
-        logging.debug(f"Missing values handling")
-        logging.info(
-            "There isn't any missing value to handle in the dataset" if not self.raw_data.isnull().values.any() else "")
-        logging.debug(f"Missing values handled")
-        """
-
-        """
-                print(self.raw_data)
-                print(self.raw_data[[self.raw_data.columns[0]]])
-        """
 
 
     def split_by(self, categories):
@@ -126,15 +108,22 @@ class Preprocessor:
 
         mixed_transactions = pd.DataFrame(columns=list(df.columns))
 
-        for idx, group in enumerate(groups):
+        for idx, group" in enumerate(groups):
             
+            # Get rows from df for current group
             current_group = df[(df[group_keys[0]] == group[0]) & (df[group_keys[1]] == group[1])]
 
             if len(df.index) > 0:
+                # DF - group  -> difference
                 df_without_current_group = df[(df[group_keys[0]] != group[0]) | (df[group_keys[1]] != group[1])]
                 
+                # Pick random samples from 'df_without_current_group' as large as the size of the current group
                 fake_transactions = df_without_current_group.sample(n=len(current_group.index))
+
+                # Set columns for fake transactions
                 fake_transactions['Class'] = 'F'
+                fake_transactions[group_keys[0]] = group[]
+                fake_transactions[group_keys[1]] = group[]
 
                 o_s = len(mixed_transactions.index)
                 mixed_transactions = pd.concat([mixed_transactions, current_group, fake_transactions])
