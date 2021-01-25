@@ -4,7 +4,7 @@ import logging
 import argparse
 
 from properties import *
-from src.preprocessing.PreprocessorOld import Preprocessor
+from src.preprocessing.Preprocessor import Preprocessor
 
 
 class FraudDetector:
@@ -44,14 +44,8 @@ if __name__ == "__main__":
         elapsed_times = dict.fromkeys(preprocessor_methods, 0)
         status = dict.fromkeys(preprocessor_methods, False)
         
-
-        preprocessor = Preprocessor(dataset_path=DEFAULT_DATASET, abs_repo_dir=script_path, script_path=script_path, repo_exist_ok=True)
-
-        preprocessor.preprocess(
-            class_label=["Class", 'V'],
-            group_by=['Cardholder Last Name', 'Cardholder First Initial'],
-            percantage_per_group=50,
-            )
+        
+        pre_processor = Preprocessor(dataset_path=DEFAULT_DATASET, script_path=script_path)
 
         pre_processor.add_new_column("Class", 'V')
         

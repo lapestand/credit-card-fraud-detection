@@ -1,13 +1,8 @@
-"""
-Preprocessor class for creating fraudulent data and new features from existing data 
-"""
-
 import logging
 import time
 
 import os
 import pathlib
-import shutil
 
 import random
 
@@ -18,92 +13,31 @@ from sklearn.impute import SimpleImputer
 
 
 class Preprocessor:
-    def __init__(self, dataset_path=None, abs_repo_dir=None, script_path=None, repo_exist_ok=False, start_from=0, repo_name="data"):
-        
-        # Check if arguments passed else raise an error
-        if (not dataset_path) or (not script_path):
-            raise TypeError("Missing required positional argument")
-        if not os.path.isfile(dataset_path):
-            raise FileNotFoundError(f"File not found -> {dataset_path}")
-        if not os.path.exists(script_path):
-            raise FileNotFoundError(f"Folder not found -> {dataset_path}")
-
-        # Start step for preprocessor
-        self.start_from = start_from
-
-        # Repository directory name
-        self.repo_name = repo_name
-
-        # Repository path
-        self.repo_path = abs_repo_dir if abs_repo_dir else os.path.join(script_path, self.repo_name)
-
-        # Callar script path 
+    def __init__(self, dataset_path=None, script_path=None):
+        self.raw_dataset_path = dataset_path
         self.script_path = script_path
+        self.quartiles_path = os.path.join(script_path, "data", "groups")
+        self.mixed_transactions_path = os.path.join(script_path, "data", "mixed_transactions.csv")
 
-
-        # Raw dataset path
-        self.raw_data_path = os.path.join(self.repo_path, "raw_data.csv")
-
-        # Cleaned dataset path
-        self.cleaned_raw_data_path = os.path.join(self.repo_path, "cleaned_raw_data.csv")
-
-        # Groups path
-        self.quartiles_path = os.path.join(self.repo_path, "groups")
-        
-        # Mixed transactions path
-        self.mixed_transactions_path = os.path.join(self.repo_path, "mixed_transactions.csv")
-
-        logging.info(f"Preprocessor repository directory\t->\t{self.repo_path}")
-
-        if self.start_from == 0:
-            if os.path.exists(self.repo_path):
-                if not repo_exist_ok:
-                    logging.warning(f"Existing directory for 'abs_repo_dir' -> {self.repo_path}")
-                    raise FileExistsError(f"Existing directory for 'abs_repo_dir' -> {self.repo_path}")
-                try:
-                    shutil.rmtree(self.repo_path)
-                except Exception as e:
-                    logging.warning(f"{e}")
-                    raise
-            
-            os.mkdir(self.repo_path)
-            logging.info(f"Repository folder created\t->\t{self.repo_path}")
-
-            shutil.copyfile(dataset_path, self.raw_data_path)
-
-            logging.info(f"Repository folder created\t->\t{self.repo_path}")
-
-        # Try to load given dataset
-        try:
-            self.raw_data = pd.read_csv(self.raw_data_path)
-            logging.info("Dataset loaded")
-        except IOError as e:
-            logging.warning(f"{e}")
-            raise
-
-        self.cleaned_raw_data = None
-        self.mixed_transactions = None
-
-        if self.start_from <= 3:
-            if not os.path.exists(self.quartiles_path):
-                os.mkdir(self.quartiles_path)
-                logging.debug(f"{self.quartiles_path} created")
-            else:
-                logging.debug(f"{self.quartiles_path} is exist therefore didn't created again")
+        if not os.path.exists(self.quartiles_path):
+            os.mkdir(self.quartiles_path)
+            logging.debug(f"{self.quartiles_path} created")
         else:
-            self.mixed_transactions = pd.read_csv(self.mixed_transactions_path)
+            logging.debug(f"{self.quartiles_path} is exist therefore didn't created again")
+
+        self.raw_data = pd.read_csv(self.raw_dataset_path)
+        logging.info("Dataset loaded")
+
+        self.pruned_data = raw_data[["Cardholder Last Name", "Cardholder First Initial", "Amount", "Vendor", "Transaction Date", "Merchant Category Code (MCC)"]]
+        logging.info("Dataset pruned")
+
+        self.fraudulent_data = None
+        
+        self.pruned_fraudulent_data = None
 
         logging.debug(self.raw_data.columns)
 
         logging.info("Preprocessor created")
-
-    def preprocess():        
-        if self.start_from <= 2:
-            self.cleaned_data = raw_data[["Cardholder Last Name", "Cardholder First Initial", "Amount", "Vendor", "Transaction Date", "Merchant Category Code (MCC)"]]
-            logging.info("Dataset cleaned")
-        else:
-            self.cleaned_data = pd.read_csv(self.cleaned_raw_data_path)
-            logging.info("Cleaned dataset loaded")
 
 
     def split_by(self, categories):
@@ -175,7 +109,6 @@ class Preprocessor:
         mixed_transactions = pd.DataFrame(columns=list(df.columns))
 
         for idx, group in enumerate(groups):
-            
             # Get rows from df for current group
             current_group = df[(df[group_keys[0]] == group[0]) & (df[group_keys[1]] == group[1])]
 
@@ -188,8 +121,8 @@ class Preprocessor:
 
                 # Set columns for fake transactions
                 fake_transactions['Class'] = 'F'
-                fake_transactions[group_keys[0]] = group[]
-                fake_transactions[group_keys[1]] = group[]
+                fake_transactions[group_keys[0]] = group[0]
+                fake_transactions[group_keys[1]] = group[1]
 
                 o_s = len(mixed_transactions.index)
                 mixed_transactions = pd.concat([mixed_transactions, current_group, fake_transactions])
