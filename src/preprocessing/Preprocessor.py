@@ -74,11 +74,12 @@ class Preprocessor:
         logging.debug(f"Dataset pruned. Remaining columns are --> {', '.join(self.necessary_features)}")
 
         # Change the option to ignore false positive warning
-        pd.set_option('chained_assignment',None)
+        pd.set_option('chained_assignment', None)
+        logging.info("chained_assignment option of pd is closed due to avoid false positive")
 
         # Add class label to dataset
         self.pruned_data.loc[:, class_label[0]] = class_label[1]
-        # logging.debug(f"New column '{class_label[0]}' added with default value = {class_label[1]}")
+        logging.debug(f"New column '{class_label[0]}' added with default value = {class_label[1]}")
 
         # Group the dataset by given category list then return group count
         self.group_count                    =   self.split_by(group_by)
@@ -87,7 +88,11 @@ class Preprocessor:
         randomly_selected_groups            =   self.get_percentage_of_quartiles(random_fraction_per_group, seed_val)
         
         # Add fake transactions and merge groups
-        self.add_fake_instances(randomly_selected_groups, group_by, seed_val)
+        self.add_fake_instances(randomly_selected_groups, group_by, seed_val).to_csv(f"faked_seed_{seed_val}", index=False)
+
+        # Create new features
+
+
 
 
     def create_random_seed_array(self, seed, _size, upper_bound):
@@ -163,49 +168,60 @@ class Preprocessor:
         # merge all groups and reset indexes
         df      =   pd.concat([group[1][0] for group in groups]).reset_index(drop=True)
 
+        print(df.shape)
+
         # get group names
         groups  =   [[group[0][0].split('_') for group in groups]][0]
 
-        print(df)
-        print(df.columns)
-
         df = df.sample(frac=1, random_state=seed_val).reset_index(drop=True)
-        print(df)
-        print(df.columns)
 
-        print(pd.DataFrame(groups, columns=['last name', "first initial"]))
+        print(df.shape)
+
+        # print(pd.DataFrame(groups, columns=['last name', "first initial"]))
         
         # select random data in the merged dataset excluding current group
-        mixed_transactions = pd.DataFrame(columns=list(df.columns))
+        # mixed_transactions = pd.DataFrame(columns=list(df.columns))
+
+        new_groups          =   df.groupby()
+        total_len = len(groups)
 
         for idx, group in enumerate(groups):
             # Get rows from df for current group
+            
+            # s = time.time()
             current_group = df[(df[group_labels[0]] == group[0]) & (df[group_labels[1]] == group[1])]
-
+            # print(f"current_group = df[(df[group_labels[0]] == group[0]) & (df[group_labels[1]] == group[1])] time is {time.time() - s}")
             if len(df.index) > 0:
                 # DF - group  -> difference
+                # s = time.time()
                 df_without_current_group = df[(df[group_labels[0]] != group[0]) | (df[group_labels[1]] != group[1])]
+                # print(f"df_without_current_group = df[(df[group_labels[0]] != group[0]) | (df[group_labels[1]] != group[1])] time is {time.time() - s}")
                 
                 # Pick random samples from 'df_without_current_group' as large as the size of the current group
-                fake_transactions = df_without_current_group.sample(n=len(current_group.index))
-
+                # s = time.time()
+                fake_transactions = df_without_current_group.sample(n=len(current_group.index), random_state=seed_val)
+                # print(f"fake_transactions = df_without_current_group.sample(n=len(current_group.index), random_state=seed_val) time is {time.time() - s}")
+                
                 # Set columns for fake transactions
+                # s = time.time()
                 fake_transactions['Class'] = 'F'
                 fake_transactions[group_labels[0]] = group[0]
                 fake_transactions[group_labels[1]] = group[1]
+                # print(f"FAKE  time is {time.time() - s}")
 
-                o_s = len(mixed_transactions.index)
+                # s = time.time()
                 mixed_transactions = pd.concat([mixed_transactions, current_group, fake_transactions])
-                n_s = len(mixed_transactions.index)
-                c_s = len(current_group.index)
-                f_s = len(fake_transactions)
+                # print(f"Concat time is {time.time() - s}")
+                
+                # print("\n\n\n")
 
-                if idx % 10 == 0:
-                    print(' '*150  , end='\r')
-                    print(f"Old size = {o_s}   fake_transactions = {f_s}   current_group = {c_s}  |  {n_s}   +{n_s-o_s}", end='\r')
-        print('\n')
-        mixed_transactions.to_csv(self.mixed_transactions_path)
-        logging.debug(f"New dataset({mixed_transactions.shape}) saved into {self.mixed_transactions_path}")
+                print(' '*150  , end='\r')
+                print(f"Group count = {total_len}\tCurrent group = {idx + 1}\tRemained = {total_len - idx - 1}", end='\r')
+        print(' '*150  , end='\r')
+        logging.debug(f"New dataset({mixed_transactions.shape})")
+        logging.debug(f"New dataset({mixed_transactions.drop_duplicates(keep='first')})")
+        return mixed_transactions.drop_duplicates(keep="first", ignore_index=True)
+        # logging.debug(f"New dataset({mixed_transactions.shape}) saved into {self.mixed_transactions_path}")
 """
 
 class Preprocessor:

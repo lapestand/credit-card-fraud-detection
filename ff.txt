@@ -1,0 +1,31 @@
+Txn amount over month: Average amount spent per transaction over a month on all transactions up to this transaction
+
+Average over 3 months: Average amount spent over the course of 1 week during past 3 months
+
+Average daily over month: Average amount spent per day over the past 30 days
+
+Amount merchant type over month: Average amount per day spent over a 30 day period on all transactions up to this one on the same merchant type as this transaction
+
+Number merchant type over month: Total number of transactions with same merchant during past 30 days
+
+Amount merchant type over 3 months: Average amount spent over the course of 1 week during the past 3 months on same merchant type as this
+
+Amount same day: Total amount spent on the same day up to this transaction
+
+Number same day: Total number of transactions on the same day up to this transaction
+
+Amount same merchant: Average amount per day spent over a 30 day period on all transactions up to this one on the same merchant as this transaction
+
+Number same merchant: Total number of transactions with the same merchant during last month
+
+Amount currency type over month: Average amount per day spent over a 30 day period on all transactions up to this one on the same currency type as this transaction
+
+Number currency type over month: Total number of transactions in the same currency during the past 30 days
+
+Amount same countryover month: Average amount spent over a 30 day period on all transactions up to this one on the same country as this transaction
+
+Number same country over month: Total number of transactions in the same country during the past 30 days before this transaction
+
+Amount merchant over 3 months: Average amount spent over the course of 1 week during the past 3 months on same merchant as this transaction
+
+Number merchant over 3 months: Total number of transactions with the same merchant during the past 3 months
