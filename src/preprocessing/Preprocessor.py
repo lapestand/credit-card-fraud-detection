@@ -66,32 +66,49 @@ class Preprocessor:
         self.groups             =   {el: [] for el in self.group_labels}
 
         logging.info("Preprocessor created")
-    
+
+
     def preprocess(self, class_label, group_by, random_fraction_per_group, seed_val):
-        
-        # Prune unnecessary features from dataset
-        self.pruned_data                    =   self.raw_data[self.necessary_features]
-        logging.debug(f"Dataset pruned. Remaining columns are --> {', '.join(self.necessary_features)}")
+        if False:
+            # Prune unnecessary features from dataset
+            self.pruned_data                    =   self.raw_data[self.necessary_features]
+            logging.debug(f"Dataset pruned. Remaining columns are --> {', '.join(self.necessary_features)}")
 
-        # Change the option to ignore false positive warning
-        pd.set_option('chained_assignment', None)
-        logging.info("chained_assignment option of pd is closed due to avoid false positive")
+            # Change the option to ignore false positive warning
+            pd.set_option('chained_assignment', None)
+            logging.info("chained_assignment option of pd is closed due to avoid false positive")
 
-        # Add class label to dataset
-        self.pruned_data.loc[:, class_label[0]] = class_label[1]
-        logging.debug(f"New column '{class_label[0]}' added with default value = {class_label[1]}")
+            # Add class label to dataset
+            self.pruned_data.loc[:, class_label[0]] = class_label[1]
+            logging.debug(f"New column '{class_label[0]}' added with default value = {class_label[1]}")
 
-        # Group the dataset by given category list then return group count
-        self.group_count                    =   self.split_by(group_by)
+            # Group the dataset by given category list then return group count
+            self.group_count                    =   self.split_by(group_by)
 
-        # Get random sample from groups using random_fraction_per_group as fraction per group
-        randomly_selected_groups            =   self.get_percentage_of_quartiles(random_fraction_per_group, seed_val)
-        
-        # Add fake transactions and merge groups
-        self.add_fake_instances(randomly_selected_groups, group_by, seed_val).to_csv(f"faked_seed_{seed_val}", index=False)
+            # Get random sample from groups using random_fraction_per_group as fraction per group
+            randomly_selected_groups            =   self.get_percentage_of_quartiles(random_fraction_per_group, seed_val)
+            
+            # Add fake transactions and merge groups
+            fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val).to_csv(f"faked_seed_{seed_val}.csv", index=False)
+            # self.new_add_fake_instances(randomly_selected_groups, group_by, seed_val)
 
         # Create new features
+        if True:
+            fraduent_transactions               =   pd.read_csv(f"faked_seed_{seed_val}.csv")
+            new_dataset                         =   self.derive_features(fraduent_transactions, class_label, group_by, seed_val)
 
+
+    def derive_features(self, old_df, class_label, group_by, seed_val):
+        # Txn amount over month
+        print(old_df)
+        cards    =   old_df.groupby(group_by)
+
+        for (card_holder_last_name, card_holder_first_initial), transactions in cards:
+            print(f"Card holder {card_holder_first_initial} {card_holder_last_name} transaction count: {len(transactions.index)}")
+            transactions
+            break
+        
+        return None
 
 
 
@@ -168,22 +185,23 @@ class Preprocessor:
         # merge all groups and reset indexes
         df      =   pd.concat([group[1][0] for group in groups]).reset_index(drop=True)
 
-        print(df.shape)
+        # print(df.shape)
 
         # get group names
         groups  =   [[group[0][0].split('_') for group in groups]][0]
 
         df = df.sample(frac=1, random_state=seed_val).reset_index(drop=True)
 
-        print(df.shape)
+        # print(df.shape)
 
         # print(pd.DataFrame(groups, columns=['last name', "first initial"]))
         
         # select random data in the merged dataset excluding current group
         # mixed_transactions = pd.DataFrame(columns=list(df.columns))
 
-        new_groups          =   df.groupby()
         total_len = len(groups)
+
+        mixed_transactions = pd.DataFrame(columns=list(df.columns))
 
         for idx, group in enumerate(groups):
             # Get rows from df for current group
@@ -218,12 +236,60 @@ class Preprocessor:
                 print(' '*150  , end='\r')
                 print(f"Group count = {total_len}\tCurrent group = {idx + 1}\tRemained = {total_len - idx - 1}", end='\r')
         print(' '*150  , end='\r')
-        logging.debug(f"New dataset({mixed_transactions.shape})")
-        logging.debug(f"New dataset({mixed_transactions.drop_duplicates(keep='first')})")
-        return mixed_transactions.drop_duplicates(keep="first", ignore_index=True)
-        # logging.debug(f"New dataset({mixed_transactions.shape}) saved into {self.mixed_transactions_path}")
-"""
 
+        mixed_transactions.drop_duplicates(keep="first", ignore_index=True, inplace=True)
+
+        mixed_transactions  =   mixed_transactions.sample(n=len(mixed_transactions.index), random_state=seed_val)
+
+        mixed_transactions.reset_index(drop=True, inplace=True)
+
+        logging.debug(f"New dataset({mixed_transactions.shape})")
+        return mixed_transactions
+        # logging.debug(f"New dataset({mixed_transactions.shape}) saved into {self.mixed_transactions_path}")
+
+
+    def new_add_fake_instances(self, df_arr, group_labels, seed_val):
+        logging.debug("FAKE INSTANCE GENERATING STARTED")
+
+        # Extract groups from dict
+        groups  =   [[list(group.keys()), list(group.values())] for quartile in df_arr for group in quartile]
+
+        # Merge all groups and reset indexes
+        df      =   pd.concat([group[1][0] for group in groups]).reset_index(drop=True)
+
+        logging.debug(f"Shape of given dataset before generation: {df.shape}")
+
+        # Get group names
+        groups  =   [[group[0][0].split('_') for group in groups]][0]
+
+
+        # Shuffle merged group using given seed to increase randomness
+        df = df.sample(frac=1, random_state=seed_val).reset_index(drop=True)
+
+        new_groups          =   df.groupby(group_labels)
+        indexes             =   self.create_random_seed_array(seed_val, len(new_groups), len(new_groups))
+
+        for real_idx, idx in enumerate(indexes):
+            if real_idx == idx:
+                if idx == len(indexes):
+                    indexes[real_idx] -= 1
+                else:
+                    indexes[real_idx] += 1
+        
+        
+        
+        for idx, (group_name, group_content) in enumerate(new_groups):
+            if len(df.index) > 0:
+                
+                
+                print(f"{idx}\t->\t{group_name}\t->{len(group_content.index)}")
+            
+        print(len(new_groups))
+
+
+
+
+"""
 class Preprocessor:
     def __init__(self, dataset_path=None, abs_repo_dir=None, script_path=None, repo_exist_ok=False, start_from=0, repo_name="data"):
         
