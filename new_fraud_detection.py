@@ -1,11 +1,16 @@
 import os
+import sys
 import time
 import logging
 import argparse
 import pathlib
 import properties
 
+import pandas as pd
+
 from src.preprocessing.Preprocessor import Preprocessor
+
+from src.modelling.algorithms.NaiveBayes import NaiveBayesClassifier
 
 
 def run():
@@ -14,15 +19,36 @@ def run():
 
 
 if __name__ == "__main__":
+    os.system("cls" if os.name == 'nt' else "clear")
     parser = argparse.ArgumentParser(description=properties.DESCRIPTION_MESSAGE)
     
     required_args = parser.add_argument_group('required arguments')
     
     parser.add_argument("-v", "--verbose", help="increase output verbosity", action="store_true")
     required_args.add_argument("-s", "--seed", help="Seed value for randomness", type=int, required=True)
+    
+    parser.add_argument("--split_percentage", help="Validation method for classifier", action="store_true")
+    parser.add_argument("--test", help="Test percentage", type=float)
+
+    parser.add_argument("--cross_validation", help="Validation method for classifier", action="store_true")    
+    required_args.add_argument("--fold", help="Fold count", type=int)
+
 
     args = parser.parse_args()
     script_path = pathlib.Path(__file__).parent.absolute()
+
+    if (not args.cross_validation) and (not args.split_percentage):
+        raise AttributeError("Cross validation or split percentage should be selected")
+
+    if args.cross_validation:
+        if not args.fold:
+            raise AttributeError("Fold is necessarry if Cross validation selected")
+    
+    
+    if args.split_percentage:
+        if not args.test:
+            raise AttributeError("Test is necessarry if Split percentage selected")
+
 
     
     if args.verbose:
@@ -47,14 +73,24 @@ if __name__ == "__main__":
 
     # preprocessor = Preprocessor(dataset_path=properties.DEFAULT_DATASET, abs_repo_dir=script_path, script_path=script_path, repo_exist_ok=True)
 
-    preprocessor = Preprocessor(dataset_path=properties.DEFAULT_DATASET)
+    if False:
+        preprocessor = Preprocessor(dataset_path=properties.DEFAULT_DATASET)
 
-    preprocessor.preprocess(
-        class_label=["Class", 'V'],
-        group_by=['Cardholder Last Name', 'Cardholder First Initial'],
-        random_fraction_per_group=0.5,
-        seed_val=seed_val
-        )
+        preprocessor.preprocess(
+            class_label=["Class", 0],   #   0 FOR VALID 1 FOR FRADUENT
+            group_by=['Cardholder Last Name', 'Cardholder First Initial'],
+            random_fraction_per_group=0.5,
+            seed_val=seed_val
+            )
+
+    data    =   pd.read_csv(f"{seed_val}_generated.csv")
+
+    naive_bayes_classifier  =   NaiveBayesClassifier(seed_val=seed_val)
+    if args.split_percentage:
+        naive_bayes_classifier.classify(data=data, cross_validation=False, test=args.test, class_label="Class")
+    else:
+        naive_bayes_classifier.classify(data=data, cross_validation=True, fold=args.fold, class_label="Class")
+
     """
     preprocessor.add_new_column("Class", 'V')
     

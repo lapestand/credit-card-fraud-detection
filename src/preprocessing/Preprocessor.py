@@ -4,6 +4,7 @@ Preprocessor class for creating fraudulent data and new features from existing d
 
 import logging
 import time
+import datetime
 
 import os
 import pathlib
@@ -15,6 +16,8 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import LabelEncoder
+
 
 
 class Preprocessor:
@@ -65,18 +68,45 @@ class Preprocessor:
         self.group_labels       =   ['1st', '2nd', '3rd', '4th']
         self.groups             =   {el: [] for el in self.group_labels}
 
+        self.derived_features   =   [
+            "Txn amount over month", "Average over 3 months", "Average daily over month", "Amount merchant type over month",
+            "Number merchant type over month", "Amount merchant type over 3 months", "Amount same day", "Number same day",
+            "Amount same merchant", "Number same merchant", "Amount merchant over 3 months", "Number merchant over 3 months",
+            "Class"
+            ]
         logging.info("Preprocessor created")
 
 
     def preprocess(self, class_label, group_by, random_fraction_per_group, seed_val):
+        
+        start   =   time.time()
+        
+        # Change the option to ignore false positive warning
+        pd.set_option('chained_assignment', None)
+        logging.info("chained_assignment option of pd is closed due to avoid false positive")
+
         if False:
             # Prune unnecessary features from dataset
-            self.pruned_data                    =   self.raw_data[self.necessary_features]
+            self.pruned_data                                        =   self.raw_data[self.necessary_features]
             logging.debug(f"Dataset pruned. Remaining columns are --> {', '.join(self.necessary_features)}")
 
-            # Change the option to ignore false positive warning
-            pd.set_option('chained_assignment', None)
-            logging.info("chained_assignment option of pd is closed due to avoid false positive")
+
+            # print(self.pruned_data[["Vendor", "Merchant Category Code (MCC)"]])
+            # Convert "Merchant type" and "Vendor" attributes
+            label_encoder                                           =   LabelEncoder()
+            
+            label_encoder.fit(self.pruned_data['Merchant Category Code (MCC)'])
+            self.pruned_data['Merchant Category Code (MCC)']        =   label_encoder.transform(self.pruned_data['Merchant Category Code (MCC)'])
+
+            logging.debug("Merchant Category Code (MCC) label encoded")
+
+            label_encoder.fit(self.pruned_data['Vendor'])
+            self.pruned_data['Vendor']                              =   label_encoder.transform(self.pruned_data['Vendor'])
+
+            logging.debug("Vendor label encoded")
+
+
+            # print(self.pruned_data[["Vendor", "Merchant Category Code (MCC)"]])
 
             # Add class label to dataset
             self.pruned_data.loc[:, class_label[0]] = class_label[1]
@@ -89,27 +119,110 @@ class Preprocessor:
             randomly_selected_groups            =   self.get_percentage_of_quartiles(random_fraction_per_group, seed_val)
             
             # Add fake transactions and merge groups
-            fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val).to_csv(f"faked_seed_{seed_val}.csv", index=False)
+            fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val)
+            # fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val).to_csv(f"faked_seed_{seed_val}.csv", index=False)
             # self.new_add_fake_instances(randomly_selected_groups, group_by, seed_val)
 
-        # Create new features
-        if True:
-            fraduent_transactions               =   pd.read_csv(f"faked_seed_{seed_val}.csv")
-            new_dataset                         =   self.derive_features(fraduent_transactions, class_label, group_by, seed_val)
+            # Create new features
+            # fraduent_transactions               =   pd.read_csv(f"faked_seed_{seed_val}.csv")
+            self.derived_data                         =   self.derive_features(fraduent_transactions, class_label, group_by, seed_val)
+        self.derived_data   =   pd.read_csv(f"{seed_val}_generated.csv")
+        logging.debug("New dataset created from derived features")
+        
+        
+
+        logging.info(f"Elapsed time as second: {time.time() - start}")
 
 
     def derive_features(self, old_df, class_label, group_by, seed_val):
-        # Txn amount over month
-        print(old_df)
-        cards    =   old_df.groupby(group_by)
+        logging.debug("Feature derivation started")
 
-        for (card_holder_last_name, card_holder_first_initial), transactions in cards:
-            print(f"Card holder {card_holder_first_initial} {card_holder_last_name} transaction count: {len(transactions.index)}")
-            transactions
-            break
+        old_df["Transaction Date"]  =   pd.to_datetime(old_df["Transaction Date"], format="%m/%d/%Y %I:%M:%S %p")
+
+        # print(old_df[["Merchant Category Code (MCC)", "Vendor"]])
+
+        # merchants                   = old_df.groupby("Merchant Category Code (MCC)")
+
+        # print(old_df.dtypes)
+
+        ONE_MONTH                   =   30
+        WEEK_COUNT_IN_ONE_MONTH     =   4
+
+        cards                       =   old_df.groupby(group_by)
+        total_transaction_count     =   len(old_df.index)
+        current                     =   0
+
+        # new_transactions    =   pd.DataFrame(columns=self.derived_features)
+
+        new_transactions    =   {el: [] for el in self.derived_features}
         
-        return None
+        for (card_holder_last_name, card_holder_first_initial), transactions in cards:
+            # print(f"Card holder {card_holder_first_initial} {card_holder_last_name} transaction count: {len(transactions.index)}")
 
+            # TRANSACTION_COUNT_OF_CURRENT_CARD   =   len(transactions.index)
+
+            for _, transaction in transactions.iterrows():
+                transactions_until_current_transaction  =   transactions.loc[transactions["Transaction Date"] <= transaction["Transaction Date"]]
+                
+                # last_month_mask = (transactions["Transaction Date"] > transaction["Transaction Date"] - datetime.timedelta(30)) & (transactions["Transaction Date"] <= transaction["Transaction Date"])
+
+                last_3_month_mask               =   transactions_until_current_transaction["Transaction Date"] > transaction["Transaction Date"] - datetime.timedelta(ONE_MONTH * 3)
+                transactions_in_last_3_month    =   transactions_until_current_transaction.loc[last_3_month_mask]
+
+                last_month_mask                 =   transactions_in_last_3_month["Transaction Date"] > transaction["Transaction Date"] - datetime.timedelta(ONE_MONTH)
+                transactions_in_last_month      =   transactions_in_last_3_month.loc[last_month_mask]
+
+                same_day_mask                   =   transactions_in_last_month["Transaction Date"] == transaction["Transaction Date"]
+                transactions_in_same_day        =   transactions_in_last_month.loc[same_day_mask]
+                
+                # Txn amount over month
+                new_transactions["Txn amount over month"].append(transactions_in_last_month.loc[:, "Amount"].sum() / len(transactions_in_last_month.index))
+
+                # Average over 3 months
+                new_transactions["Average over 3 months"].append(transactions_in_last_3_month.loc[:, "Amount"].sum() / (WEEK_COUNT_IN_ONE_MONTH * 3))
+
+                # Average daily over month
+                new_transactions["Average daily over month"].append(transactions_in_last_month.loc[:, "Amount"].sum() / ONE_MONTH)
+
+                # Amount merchant type over month
+                same_merchant_type_over_month_mask          =   transactions_in_last_month["Merchant Category Code (MCC)"] == transaction["Merchant Category Code (MCC)"]
+                new_transactions["Amount merchant type over month"].append(transactions_in_last_month.loc[same_merchant_type_over_month_mask, "Amount"].sum() / ONE_MONTH)
+
+                # Number merchant type over month
+                new_transactions["Number merchant type over month"].append(len(transactions_in_last_month.loc[same_merchant_type_over_month_mask].index))
+
+                # Amount merchant type over 3 months
+                same_merchant_over_3_month_mask   =   transactions_in_last_3_month["Merchant Category Code (MCC)"] == transaction["Merchant Category Code (MCC)"]
+                new_transactions["Amount merchant type over 3 months"].append(transactions_in_last_3_month.loc[same_merchant_over_3_month_mask, "Amount"].sum() / (WEEK_COUNT_IN_ONE_MONTH * 3))
+
+                # Amount same day
+                new_transactions["Amount same day"].append(transactions_in_same_day.loc[:, "Amount"].sum())
+
+                # Number same day
+                new_transactions["Number same day"].append(len(transactions_in_same_day.index))
+
+                # Amount same merchant
+                same_merchant_mask                      =   transactions_in_same_day["Vendor"] == transaction["Vendor"]
+                new_transactions["Amount same merchant"].append(transactions_in_same_day.loc[same_merchant_mask, "Amount"].sum())
+
+                # Number same merchant
+                new_transactions["Number same merchant"].append(len(transactions_in_same_day.loc[same_merchant_mask].index))
+
+                # Amount merchant over 3 months
+                same_merchant_over_3_months_mask        =   transactions_in_last_3_month["Vendor"] == transaction["Vendor"]
+                new_transactions["Amount merchant over 3 months"].append(transactions_in_last_3_month.loc[same_merchant_over_3_months_mask, "Amount"].sum() / (WEEK_COUNT_IN_ONE_MONTH * 3))
+
+                # Number merchant over 3 months
+                new_transactions["Number merchant over 3 months"].append(len(transactions_in_last_3_month.loc[same_merchant_over_3_months_mask].index))
+
+                new_transactions["Class"].append(transaction["Class"])
+
+
+                current += 1
+                print("                                              "*3, end='\r')
+                print(f"Total transaction: {total_transaction_count} | Current transaction: {current} && Progress %{(current / total_transaction_count) * 100}", end='\r')
+        print()
+        return pd.DataFrame.from_dict(new_transactions)
 
 
     def create_random_seed_array(self, seed, _size, upper_bound):
@@ -203,6 +316,8 @@ class Preprocessor:
 
         mixed_transactions = pd.DataFrame(columns=list(df.columns))
 
+        mixed_transactions  =   []  
+
         for idx, group in enumerate(groups):
             # Get rows from df for current group
             
@@ -222,13 +337,13 @@ class Preprocessor:
                 
                 # Set columns for fake transactions
                 # s = time.time()
-                fake_transactions['Class'] = 'F'
+                fake_transactions['Class'] = 1   #   0 FOR VALID 1 FOR FRADUENT
                 fake_transactions[group_labels[0]] = group[0]
                 fake_transactions[group_labels[1]] = group[1]
                 # print(f"FAKE  time is {time.time() - s}")
 
                 # s = time.time()
-                mixed_transactions = pd.concat([mixed_transactions, current_group, fake_transactions])
+                mixed_transactions.extend([current_group, fake_transactions])
                 # print(f"Concat time is {time.time() - s}")
                 
                 # print("\n\n\n")
@@ -236,6 +351,8 @@ class Preprocessor:
                 print(' '*150  , end='\r')
                 print(f"Group count = {total_len}\tCurrent group = {idx + 1}\tRemained = {total_len - idx - 1}", end='\r')
         print(' '*150  , end='\r')
+
+        mixed_transactions = pd.concat(mixed_transactions)
 
         mixed_transactions.drop_duplicates(keep="first", ignore_index=True, inplace=True)
 
@@ -483,4 +600,9 @@ class Preprocessor:
         print('\n')
         mixed_transactions.to_csv(self.mixed_transactions_path)
         logging.debug(f"New dataset({mixed_transactions.shape}) saved into {self.mixed_transactions_path}")
+"""
+
+
+"""
+df.groupby(['Cardholder Last Name', 'Cardholder First Initial', pd.Grouper(key='Transaction Date', freq="30D")]).agg({'Cardholder Last Name': 'first', 'Cardholder First Initial': 'first', 'Amount': lambda x: sum(x) / 30})
 """
