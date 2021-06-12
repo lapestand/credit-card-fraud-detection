@@ -4,13 +4,13 @@ import time
 import logging
 import argparse
 import pathlib
-import properties
 
 import pandas as pd
+import matplotlib.pyplot as plt
 
+import properties
 from src.preprocessing.Preprocessor import Preprocessor
-
-from src.modelling.algorithms.NaiveBayes import NaiveBayesClassifier
+from src.modelling.Classifier import Classifier
 
 
 def run():
@@ -33,10 +33,17 @@ if __name__ == "__main__":
     parser.add_argument("--cross_validation", help="Validation method for classifier", action="store_true")    
     required_args.add_argument("--fold", help="Fold count", type=int)
 
+    parser.add_argument("--algorithm", help="Test percentage", type=str)
+
+    parser.add_argument("--bypass_preprocess", action="store_true")
+    parser.add_argument("--apply_only_preprocess", action="store_true")
+    
+
 
     args = parser.parse_args()
     script_path = pathlib.Path(__file__).parent.absolute()
 
+    
     if (not args.cross_validation) and (not args.split_percentage):
         raise AttributeError("Cross validation or split percentage should be selected")
 
@@ -71,9 +78,8 @@ if __name__ == "__main__":
     status = dict.fromkeys(preprocessor_methods, False)
     """
 
-    # preprocessor = Preprocessor(dataset_path=properties.DEFAULT_DATASET, abs_repo_dir=script_path, script_path=script_path, repo_exist_ok=True)
 
-    if False:
+    if not args.bypass_preprocess:
         preprocessor = Preprocessor(dataset_path=properties.DEFAULT_DATASET)
 
         preprocessor.preprocess(
@@ -82,24 +88,23 @@ if __name__ == "__main__":
             random_fraction_per_group=0.5,
             seed_val=seed_val
             )
-
-    data    =   pd.read_csv(f"{seed_val}_generated.csv")
-
-    naive_bayes_classifier  =   NaiveBayesClassifier(seed_val=seed_val)
-    if args.split_percentage:
-        naive_bayes_classifier.classify(data=data, cross_validation=False, test=args.test, class_label="Class")
     else:
-        naive_bayes_classifier.classify(data=data, cross_validation=True, fold=args.fold, class_label="Class")
+        logging.debug("Preprocesssing bypassed!")
 
-    """
-    preprocessor.add_new_column("Class", 'V')
-    
-    preprocessor.split_by(['Cardholder Last Name', 'Cardholder First Initial'])
-    
-    df_arr = preprocessor.get_percentage_of_quartiles(50)
-    
-    preprocessor.add_fake_instances(df_arr, ['Cardholder Last Name', 'Cardholder First Initial'])
-    """
+    if not args.apply_only_preprocess:
+        try:
+            data    =   pd.read_csv(f"{seed_val}_generated.csv")
+        except FileNotFoundError as e:
+            raise FileNotFoundError(f"Couldn't find the dataset for the seed value ({args.seed})")
+
+        classifier = Classifier(data, cross_validation=args.cross_validation, k=args.fold if args.fold else 10, test_ratio=args.test, algorithm=args.algorithm, seed_val=args.seed)
+
+        logging.debug(f"Selected algorithm: {args.algorithm} via {'cross validation' if args.cross_validation else 'percentage split'}")
+
+        classifier.analyze()
+    else:
+        logging.debug("apply_only_preprocess active")
+
     """
     logging.debug(f"Elapsed time for initialization            -> {it - s}")
     logging.debug(f"Elapsed time for class labeling            -> {ct - s}")

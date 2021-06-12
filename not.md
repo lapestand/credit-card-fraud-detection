@@ -11,13 +11,6 @@ source of randomness
 
 
 
-teslim
-
-5 şubat 2021
-
-
-
-
 ************************************
 
 bankacılık devlet düzenleme denetleme yeni mevzuat

@@ -21,6 +21,10 @@ from sklearn.preprocessing import LabelEncoder
 
 
 class Preprocessor:
+    """TODO
+    
+    Decrease fake instance count to frac(random(0.1, 0.5))
+    """
     def __init__(self, dataset_path=None):
         """[summary]
 
@@ -40,7 +44,8 @@ class Preprocessor:
         
         self.raw_data_path  =   dataset_path
         
-        self.repo_path      =   os.path.join("data", "repository")
+        # self.repo_path      =   os.path.join("data", "repository")
+        self.repo_path      =   os.path.join("workspace")
 
         self.group_count    =   0
 
@@ -69,6 +74,7 @@ class Preprocessor:
         self.groups             =   {el: [] for el in self.group_labels}
 
         self.derived_features   =   [
+            "id",
             "Txn amount over month", "Average over 3 months", "Average daily over month", "Amount merchant type over month",
             "Number merchant type over month", "Amount merchant type over 3 months", "Amount same day", "Number same day",
             "Amount same merchant", "Number same merchant", "Amount merchant over 3 months", "Number merchant over 3 months",
@@ -85,48 +91,47 @@ class Preprocessor:
         pd.set_option('chained_assignment', None)
         logging.info("chained_assignment option of pd is closed due to avoid false positive")
 
-        if False:
-            # Prune unnecessary features from dataset
-            self.pruned_data                                        =   self.raw_data[self.necessary_features]
-            logging.debug(f"Dataset pruned. Remaining columns are --> {', '.join(self.necessary_features)}")
+        # Prune unnecessary features from dataset
+        self.pruned_data                                        =   self.raw_data[self.necessary_features]
+        logging.debug(f"Dataset pruned. Remaining columns are --> {', '.join(self.necessary_features)}")
 
 
-            # print(self.pruned_data[["Vendor", "Merchant Category Code (MCC)"]])
-            # Convert "Merchant type" and "Vendor" attributes
-            label_encoder                                           =   LabelEncoder()
-            
-            label_encoder.fit(self.pruned_data['Merchant Category Code (MCC)'])
-            self.pruned_data['Merchant Category Code (MCC)']        =   label_encoder.transform(self.pruned_data['Merchant Category Code (MCC)'])
+        # print(self.pruned_data[["Vendor", "Merchant Category Code (MCC)"]])
+        # Convert "Merchant type" and "Vendor" attributes
+        label_encoder                                           =   LabelEncoder()
+        
+        label_encoder.fit(self.pruned_data['Merchant Category Code (MCC)'])
+        self.pruned_data['Merchant Category Code (MCC)']        =   label_encoder.transform(self.pruned_data['Merchant Category Code (MCC)'])
 
-            logging.debug("Merchant Category Code (MCC) label encoded")
+        logging.debug("Merchant Category Code (MCC) label encoded")
 
-            label_encoder.fit(self.pruned_data['Vendor'])
-            self.pruned_data['Vendor']                              =   label_encoder.transform(self.pruned_data['Vendor'])
+        label_encoder.fit(self.pruned_data['Vendor'])
+        self.pruned_data['Vendor']                              =   label_encoder.transform(self.pruned_data['Vendor'])
 
-            logging.debug("Vendor label encoded")
+        logging.debug("Vendor label encoded")
 
 
-            # print(self.pruned_data[["Vendor", "Merchant Category Code (MCC)"]])
+        # print(self.pruned_data[["Vendor", "Merchant Category Code (MCC)"]])
 
-            # Add class label to dataset
-            self.pruned_data.loc[:, class_label[0]] = class_label[1]
-            logging.debug(f"New column '{class_label[0]}' added with default value = {class_label[1]}")
+        # Add class label to dataset
+        self.pruned_data.loc[:, class_label[0]] = class_label[1]
+        logging.debug(f"New column '{class_label[0]}' added with default value = {class_label[1]}")
 
-            # Group the dataset by given category list then return group count
-            self.group_count                    =   self.split_by(group_by)
+        # Group the dataset by given category list then return group count
+        self.group_count                    =   self.split_by(group_by)
 
-            # Get random sample from groups using random_fraction_per_group as fraction per group
-            randomly_selected_groups            =   self.get_percentage_of_quartiles(random_fraction_per_group, seed_val)
-            
-            # Add fake transactions and merge groups
-            fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val)
-            # fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val).to_csv(f"faked_seed_{seed_val}.csv", index=False)
-            # self.new_add_fake_instances(randomly_selected_groups, group_by, seed_val)
+        # Get random sample from groups using random_fraction_per_group as fraction per group
+        randomly_selected_groups            =   self.get_percentage_of_quartiles(random_fraction_per_group, seed_val)
+        
+        # Add fake transactions and merge groups
+        fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val)
+        # fraduent_transactions               =   self.add_fake_instances(randomly_selected_groups, group_by, seed_val).to_csv(f"faked_seed_{seed_val}.csv", index=False)
+        # self.new_add_fake_instances(randomly_selected_groups, group_by, seed_val)
 
-            # Create new features
-            # fraduent_transactions               =   pd.read_csv(f"faked_seed_{seed_val}.csv")
-            self.derived_data                         =   self.derive_features(fraduent_transactions, class_label, group_by, seed_val)
-        self.derived_data   =   pd.read_csv(f"{seed_val}_generated.csv")
+        # Create new features
+        # fraduent_transactions               =   pd.read_csv(f"faked_seed_{seed_val}.csv")
+        self.derived_data                     =   self.derive_features(fraduent_transactions, class_label, group_by, seed_val)
+        self.derived_data.to_csv(f"{seed_val}_generated.csv", index=False)
         logging.debug("New dataset created from derived features")
         
         
@@ -151,6 +156,7 @@ class Preprocessor:
         cards                       =   old_df.groupby(group_by)
         total_transaction_count     =   len(old_df.index)
         current                     =   0
+        current_group               =   0
 
         # new_transactions    =   pd.DataFrame(columns=self.derived_features)
 
@@ -175,6 +181,9 @@ class Preprocessor:
                 same_day_mask                   =   transactions_in_last_month["Transaction Date"] == transaction["Transaction Date"]
                 transactions_in_same_day        =   transactions_in_last_month.loc[same_day_mask]
                 
+                # Group ID
+                new_transactions["Id"].append(current_group)
+
                 # Txn amount over month
                 new_transactions["Txn amount over month"].append(transactions_in_last_month.loc[:, "Amount"].sum() / len(transactions_in_last_month.index))
 
@@ -215,12 +224,14 @@ class Preprocessor:
                 # Number merchant over 3 months
                 new_transactions["Number merchant over 3 months"].append(len(transactions_in_last_3_month.loc[same_merchant_over_3_months_mask].index))
 
+                # Class
                 new_transactions["Class"].append(transaction["Class"])
 
 
                 current += 1
                 print("                                              "*3, end='\r')
                 print(f"Total transaction: {total_transaction_count} | Current transaction: {current} && Progress %{(current / total_transaction_count) * 100}", end='\r')
+            current_group += 1
         print()
         return pd.DataFrame.from_dict(new_transactions)
 
@@ -253,7 +264,9 @@ class Preprocessor:
 
         # save the groups to self.groups
         for (fn, ln, q), g in dfg:
+            # print(f"{fn}_{ln}")
             self.groups[q].append({f"{fn}_{ln}": g.iloc[:, :-2]})
+            # print(g.iloc[:, :-2])
             # self.groups[q].append({[fn, ln]: g.iloc[:, :-2]})
             group_count[q]  +=  1
 
@@ -290,32 +303,32 @@ class Preprocessor:
 
 
     def add_fake_instances(self, df_arr, group_labels, seed_val):
-        logging.debug("Merging started")
+        logging.debug("FAKE INSTANCE GENERATING STARTED")
 
+        # Extract groups from dict
         groups  =   [[list(group.keys()), list(group.values())] for quartile in df_arr for group in quartile]
         
 
-        # merge all groups and reset indexes
+        # Merge all groups and reset indexes
         df      =   pd.concat([group[1][0] for group in groups]).reset_index(drop=True)
 
-        # print(df.shape)
+        logging.debug(f"Shape of given dataset before generation: {df.shape}")
 
-        # get group names
+        # Get group names
         groups  =   [[group[0][0].split('_') for group in groups]][0]
-
+        
+        # Shuffle merged group using given seed to increase randomness
         df = df.sample(frac=1, random_state=seed_val).reset_index(drop=True)
-
-        # print(df.shape)
 
         # print(pd.DataFrame(groups, columns=['last name', "first initial"]))
         
-        # select random data in the merged dataset excluding current group
+        # Select random data in the merged dataset excluding current group
         # mixed_transactions = pd.DataFrame(columns=list(df.columns))
 
         total_len = len(groups)
 
+        # Create empty dataframe using 
         mixed_transactions = pd.DataFrame(columns=list(df.columns))
-
         mixed_transactions  =   []  
 
         for idx, group in enumerate(groups):
@@ -349,7 +362,7 @@ class Preprocessor:
                 # print("\n\n\n")
 
                 print(' '*150  , end='\r')
-                print(f"Group count = {total_len}\tCurrent group = {idx + 1}\tRemained = {total_len - idx - 1}", end='\r')
+                print(f"Group count = {total_len}\tCurrent group = {idx + 1}\tRemained = {total_len - idx - 1} ||| Fake Transaction count = {len(fake_transactions.index)}", end='\r')
         print(' '*150  , end='\r')
 
         mixed_transactions = pd.concat(mixed_transactions)
@@ -364,7 +377,7 @@ class Preprocessor:
         return mixed_transactions
         # logging.debug(f"New dataset({mixed_transactions.shape}) saved into {self.mixed_transactions_path}")
 
-
+    # IN PROGRESS
     def new_add_fake_instances(self, df_arr, group_labels, seed_val):
         logging.debug("FAKE INSTANCE GENERATING STARTED")
 
@@ -402,7 +415,6 @@ class Preprocessor:
                 print(f"{idx}\t->\t{group_name}\t->{len(group_content.index)}")
             
         print(len(new_groups))
-
 
 
 
