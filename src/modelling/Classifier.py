@@ -1,4 +1,5 @@
 from numpy import mean, array_equal
+from numpy.random import seed
 from scipy.sparse import data
 from sklearn.model_selection import KFold, cross_val_score, train_test_split
 from sklearn.preprocessing import StandardScaler
@@ -30,12 +31,12 @@ class Classifier:
         self.models = {
             "LogisticRegression": LogisticRegression(random_state=self.seed_val),
             "K-NearestNeighbours": KNeighborsClassifier(n_neighbors=k, metric="minkowski"),
-            "SupportVectorMachine": SVC(kernel='linear'),
+            "SupportVectorMachine": SVC(kernel='linear', random_state=seed_val),
             "GaussianNB": GaussianNB(),
-            "DecisionTree-Entropy": DecisionTreeClassifier(criterion="entropy"),
-            "DecisionTree-Gini": DecisionTreeClassifier(criterion="gini"),
-            "RandomForest-Entropy": RandomForestClassifier(n_estimators=10, criterion="entropy"),
-            "RandomForest-Gini": RandomForestClassifier(n_estimators=10, criterion="gini")
+            "DecisionTree-Entropy": DecisionTreeClassifier(criterion="entropy", random_state=seed_val),
+            "DecisionTree-Gini": DecisionTreeClassifier(criterion="gini", random_state=seed_val),
+            "RandomForest-Entropy": RandomForestClassifier(n_estimators=10, criterion="entropy", random_state=seed_val),
+            "RandomForest-Gini": RandomForestClassifier(n_estimators=10, criterion="gini", random_state=seed_val)
         }
 
         self.model = self.models[algorithm]

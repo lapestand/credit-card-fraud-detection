@@ -68,13 +68,15 @@ class Preprocessor:
             raise
 
         self.necessary_features =   ["Cardholder Last Name", "Cardholder First Initial", "Amount", "Vendor", "Transaction Date", "Merchant Category Code (MCC)"]
+        # Removed features are
+        # Year-Month,Agency Number,Agency Name,Description,Posted Date
         self.pruned_data        =   None
 
         self.group_labels       =   ['1st', '2nd', '3rd', '4th']
         self.groups             =   {el: [] for el in self.group_labels}
 
         self.derived_features   =   [
-            "id",
+            "Id",
             "Txn amount over month", "Average over 3 months", "Average daily over month", "Amount merchant type over month",
             "Number merchant type over month", "Amount merchant type over 3 months", "Amount same day", "Number same day",
             "Amount same merchant", "Number same merchant", "Amount merchant over 3 months", "Number merchant over 3 months",
@@ -415,6 +417,8 @@ class Preprocessor:
                 print(f"{idx}\t->\t{group_name}\t->{len(group_content.index)}")
             
         print(len(new_groups))
+
+
 
 
 
